@@ -25,7 +25,7 @@ KINDS = {
     ),
 }
 _NS_RE = re.compile(r"^\s*namespace\s+([\w.]+)", re.M)
-_FIELD_RE = re.compile(r"^\s*([A-Za-z_]\w*)\s*:\s*([^=]+?)\s*(?:=\s*(.*?))?\s*$")
+_FIELD_RE = re.compile(r"^\s*([A-Za-z_]\w*)\s*:\s*([^=\r\n]+?)\s*(?:=\s*(.*?))?\s*$")
 
 
 class ScaffoldError(Exception):

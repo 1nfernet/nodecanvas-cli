@@ -58,3 +58,5 @@ def test_scaffold_refuses_bad_targets(ncg, project):
     assert code == 1 and "not a valid C# class name" in err
     code, _, err = ncg("scaffold", "action", "Y", "--dir", "Assets/Game", "--field", "oops")
     assert code == 1 and "--field" in err
+    code, _, err = ncg("scaffold", "action", "Y", "--dir", "Assets/Game", "--field", "name:Type\nOther=x")
+    assert code == 1 and "--field" in err
