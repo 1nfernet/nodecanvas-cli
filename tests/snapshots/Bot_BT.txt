@@ -1,0 +1,12 @@
+Bot_BT  [BT, repeat]  Assets/Graphs/Bot_BT.asset  nodes=10
+vars: Self:Bot(pub)  Target:Unit  Alert:bool  Cool time:float  Speed:float
+#0 Selector
+├─#1 ? @Self.IsDead
+├─#2 Sequencer "Fight"
+│ ├─#3 ? !$Alert
+│ ├─#4 Cooldown [coolDownTime=$Cool time]
+│ │ └─#5 @Self.Attack($Target)
+│ └─#6 ProbabilitySelector
+│   ├─(w=1.0) #7 @Self.MoveTo((1.0, 0, -2.5))
+│   └─(w=3.0) #8 SubTree → Sub_BT {Self←$Self, Alert→$Alert}
+└─[off] #9 $Speed *= 2.0 // double the speed

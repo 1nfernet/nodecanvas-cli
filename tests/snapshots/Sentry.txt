@@ -1,0 +1,3 @@
+Sentry:Sentry  [BT, repeat]  Assets/Prefabs/Sentry.prefab:Sentry  nodes=2
+#0 Sequencer
+└─#1 wait 3.0s

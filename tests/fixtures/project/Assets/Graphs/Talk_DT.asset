@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d1e2b9d45c5e143b84b6d3d4a1b0c2, type: 3}
+  m_Name: Talk_DT
+  m_EditorClassIdentifier: NodeCanvas::NodeCanvas.DialogueTrees.DialogueTree
+  _serializedGraph: '{"type":"NodeCanvas.DialogueTrees.DialogueTree","nodes":[{"statement":{"_text":"Hello,
+    traveller!"},"_actorName":"Guard","_position":{},"$type":"NodeCanvas.DialogueTrees.StatementNode","$id":"0"},{"availableChoices":[{"statement":{"_text":"Who
+    are you?"}},{"statement":{"_text":"Let me pass."},"condition":{"valueA":{"_name":"Met","_targetVariableID":"c367230d-0000-4000-8000-c367230dba1d"},"valueB":{"_value":true},"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"}}],"_actorName":"Player","_position":{"y":160.0},"$type":"NodeCanvas.DialogueTrees.MultipleChoiceNode","$id":"1"},{"statement":{"_text":"I
+    guard this gate.","_meta":"calm","_localizations":[{"Key":8,"Value":{"text":"Я
+    охраняю эти ворота."}}]},"_actorName":"Guard","_UID":"uid-guard-intro","_position":{"x":-160.0,"y":300.0},"$type":"NodeCanvas.DialogueTrees.StatementNode","$id":"2"},{"_condition":{"valueA":{"_name":"Met","_targetVariableID":"c367230d-0000-4000-8000-c367230dba1d"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":160.0,"y":300.0},"$type":"NodeCanvas.DialogueTrees.ConditionNode","$id":"3"},{"_position":{"x":100.0,"y":440.0},"$type":"NodeCanvas.DialogueTrees.FinishNode","$id":"4"},{"_sourceNodeUID":{"_targetNodeUID":"uid-guard-intro"},"_position":{"x":260.0,"y":440.0},"$type":"NodeCanvas.DialogueTrees.Jumper","$id":"5"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.DialogueTrees.DTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.DialogueTrees.DTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.DialogueTrees.DTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.DialogueTrees.DTConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.DialogueTrees.DTConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.DialogueTrees.DTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"Met":{"_name":"Met","_id":"c367230d-0000-4000-8000-c367230dba1d","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}},"derivedData":{"actorParameters":[{"_keyName":"Guard","_id":"actor-guard"},{"_keyName":"Player","_id":"actor-player"}],"$type":"NodeCanvas.DialogueTrees.DialogueTree+DerivedSerializationData"}}'
+  _objectReferences: []
+  _graphSource:
+    _version: 3.33
+    _category: 
+    _comments: 
+    _translation: {x: 0, y: 0}
+    _zoomFactor: 1
+  _haltSerialization: 0
+  _externalSerializationFile: {fileID: 0}

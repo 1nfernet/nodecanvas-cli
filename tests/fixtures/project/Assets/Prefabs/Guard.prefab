@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1001
+GameObject:
+  m_ObjectHideFlags: 0
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1002}
+  - component: {fileID: 1003}
+  - component: {fileID: 1004}
+  m_Layer: 0
+  m_Name: Guard
+  m_IsActive: 1
+--- !u!4 &1002
+Transform:
+  m_ObjectHideFlags: 0
+  m_GameObject: {fileID: 1001}
+--- !u!114 &1003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cdc9e5f967f79837c26ba16e508a5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Demo.Game::Demo.Game.GuardOwner
+  _serializedExposedParameters:
+  - _json: '{"_targetVariableID":"4c8476db-0000-4000-8000-4c8476db197a","_value":3,"$type":"NodeCanvas.Framework.ExposedParameter`1[[System.Int32,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_targetVariableID":"3cdbcee9-0000-4000-8000-3cdbcee9312e","_value":1.5,"$type":"NodeCanvas.Framework.ExposedParameter`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_targetVariableID":"106a6c24-0000-4000-8000-106a6c241b87x","_value":1,"$type":"NodeCanvas.Framework.ExposedParameter`1[[Demo.Game.Bot,
+      Demo.Game, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references:
+    - {fileID: 0}
+    - {fileID: 1003}
+  _boundGraphSerialization: 
+  _boundGraphObjectReferences: []
+  _boundGraphSource:
+    _version: 0
+    _category: 
+    _comments: 
+    _translation: {x: 0, y: 0}
+    _zoomFactor: 1
+  _firstActivation: 0
+  _enableAction: 0
+  _disableAction: 0
+  _lockBoundGraphPrefabOverrides: 1
+  _preInitializeSubGraphs: 0
+  _updateMode: 0
+  _graph: {fileID: 11400000, guid: 214d51afeec217ce13b744a9e61a2443, type: 2}
+  _blackboard: {fileID: 1004}
+--- !u!114 &1004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1b2c3d4e5f60718293a4b5c6d7e8f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ParadoxNotion::NodeCanvas.Framework.Blackboard
+  _parentBlackboard: {fileID: 11400000, guid: 591a54500913c0429d6ff8e492b46367, type: 2}
+  _serializedBlackboard: '{"_variables":{"Home dist":{"_value":4.0,"_name":"Home
+    dist","_id":"106a6c24-0000-4000-8000-106a6c241b87","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
+  _objectReferences: []
+  _serializedVariables: []

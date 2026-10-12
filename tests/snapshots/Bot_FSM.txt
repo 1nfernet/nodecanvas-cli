@@ -1,0 +1,9 @@
+Bot_FSM  [FSM]  Assets/Graphs/Bot_FSM.asset  nodes=3
+vars: Self:Bot(pub)  Alert:bool
+start → #0 Idle
+#0 SubBehaviourTree "Idle" → Sub_BT {Self←$Self}
+   --[$Alert]--> #1 Combat
+#1 SubBehaviourTree "Combat" → Bot_BT {Self←$Self}
+   --[!$Alert]--> #0 Idle
+#2 AnyState "Any"
+   --[(always)]--> #0 Idle

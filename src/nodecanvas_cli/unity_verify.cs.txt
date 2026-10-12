@@ -1,0 +1,135 @@
+// nodecanvas-cli verify --unity: executed by the Unity Pipeline `eval_file` command inside the open Editor.
+// The body of a static `object Execute()` method; nodecanvas-cli substitutes TARGETS and RESAVE.
+var targets = new string[][] { /*TARGETS*/ };
+var resave = /*RESAVE*/;
+var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic;
+var nodeWarning = typeof(NodeCanvas.Framework.Node).GetMethod("GetWarningOrError", flags, null, Type.EmptyTypes, null);
+var taskWarning = typeof(NodeCanvas.Framework.Task).GetMethod("GetWarningOrError", flags, null, Type.EmptyTypes, null);
+Func<string, string> q = s => {
+    if (s == null) return "null";
+    var sb = new System.Text.StringBuilder("\"");
+    foreach (var ch in s) {
+        if (ch == '"' || ch == '\\') sb.Append('\\').Append(ch);
+        else if (ch == '\n') sb.Append("\\n");
+        else if (ch == '\r') sb.Append("\\r");
+        else if (ch == '\t') sb.Append("\\t");
+        else if (ch < ' ') sb.Append("\\u").Append(((int)ch).ToString("x4"));
+        else sb.Append(ch);
+    }
+    return sb.Append('"').ToString();
+};
+var logs = new List<string>();
+Application.LogCallback onLog = (text, trace, type) => {
+    lock (logs) { logs.Add("{\"type\":" + q(type.ToString()) + ",\"text\":" + q(text) + "}"); }
+};
+ParadoxNotion.Services.Logger.LogHandler onNcLog = m => {
+    lock (logs) { logs.Add("{\"type\":" + q(m.type.ToString()) + ",\"text\":" + q((m.tag != null ? "(" + m.tag + ") " : "") + m.text) + "}"); }
+    return false;
+};
+var subscribersField = typeof(ParadoxNotion.Services.Logger).GetField("subscribers", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+var subscribers = subscribersField != null ? subscribersField.GetValue(null) as List<ParadoxNotion.Services.Logger.LogHandler> : null;
+
+var openWindows = new List<string>();
+foreach (var w in Resources.FindObjectsOfTypeAll<EditorWindow>()) {
+    if (w.GetType().Name == "GraphEditor") openWindows.Add(w.titleContent != null ? w.titleContent.text : "GraphEditor");
+}
+
+var results = new List<string>();
+foreach (var t in targets) {
+    var path = t[0];
+    var anchor = t[1];
+    var issues = new List<string>();
+    Action<string, string, string> issue = (severity, at, text) => issues.Add("{\"severity\":" + q(severity) + ",\"at\":" + q(at) + ",\"text\":" + q(text) + "}");
+    lock (logs) { logs.Clear(); }
+    Application.logMessageReceivedThreaded += onLog;
+    if (subscribers != null) subscribers.Insert(0, onNcLog);
+    NodeCanvas.Framework.Graph graph = null;
+    var temporary = false;
+    var status = "ok";
+    var saved = false;
+    try {
+        if (anchor == "") {
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+            graph = AssetDatabase.LoadAssetAtPath<NodeCanvas.Framework.Graph>(path);
+            if (graph == null) { status = "not-loaded"; }
+            else if (!graph.SelfDeserialize()) { status = "deserialize-failed"; }
+            else { graph.Validate(); }
+        } else {
+            var owners = new List<NodeCanvas.Framework.GraphOwner>();
+            if (path.EndsWith(".unity")) {
+                var scene = UnityEngine.SceneManagement.SceneManager.GetSceneByPath(path);
+                if (!scene.isLoaded) { status = "scene-not-open"; }
+                else foreach (var root in scene.GetRootGameObjects()) owners.AddRange(root.GetComponentsInChildren<NodeCanvas.Framework.GraphOwner>(true));
+            } else {
+                AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+                var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if (go == null) status = "not-loaded";
+                else owners.AddRange(go.GetComponentsInChildren<NodeCanvas.Framework.GraphOwner>(true));
+            }
+            NodeCanvas.Framework.GraphOwner owner = null;
+            foreach (var o in owners) {
+                if (unchecked((long)GlobalObjectId.GetGlobalObjectIdSlow(o).targetObjectId).ToString() == anchor) owner = o;
+            }
+            if (status == "ok" && owner == null) status = "owner-not-found";
+            else if (owner != null) {
+                graph = (NodeCanvas.Framework.Graph)ScriptableObject.CreateInstance(owner.graphType);
+                temporary = true;
+                if (!graph.Deserialize(owner.boundGraphSerialization, owner.boundGraphObjectReferences, true)) status = "deserialize-failed";
+            }
+        }
+        if (graph != null && status == "ok") {
+            var nodes = graph.allNodes;
+            for (var i = 0; i < nodes.Count; i++) {
+                var n = nodes[i];
+                if (n is ParadoxNotion.Serialization.IMissingRecoverable) issue("error", "#" + i, "missing node type " + ((ParadoxNotion.Serialization.IMissingRecoverable)n).missingType);
+                var w = nodeWarning != null ? nodeWarning.Invoke(n, null) as string : null;
+                if (w != null) issue("warning", "#" + i, w);
+            }
+            foreach (var c in graph.GetAllConnections()) {
+                var ta = c as NodeCanvas.Framework.ITaskAssignable;
+                if (ta == null || ta.task == null || taskWarning == null) continue;
+                var w = taskWarning.Invoke(ta.task, null) as string;
+                if (w != null) issue("warning", "#" + nodes.IndexOf(c.sourceNode) + "->#" + nodes.IndexOf(c.targetNode), w);
+            }
+            foreach (var task in graph.GetAllTasksOfType<NodeCanvas.Framework.Task>()) {
+                if (task is ParadoxNotion.Serialization.IMissingRecoverable) issue("error", "task", "missing task type " + ((ParadoxNotion.Serialization.IMissingRecoverable)task).missingType);
+                var rw = task as NodeCanvas.Framework.IReflectedWrapper;
+                var info = rw != null ? rw.GetSerializedInfo() : null;
+                var changed = info != null ? info.GetType().GetMethod("HasChanged") : null;
+                if (changed != null && (bool)changed.Invoke(info, null) && info.AsMemberInfo() != null)
+                    issue("warning", "task", "binding " + info.AsString() + " resolved by name to another overload");
+            }
+            var vars = graph.blackboard != null ? graph.blackboard.variables : null;
+            if (vars != null) foreach (var kv in vars) {
+                if (kv.Value is ParadoxNotion.Serialization.IMissingRecoverable) issue("error", "bb", "$" + kv.Key + ": missing variable type " + ((ParadoxNotion.Serialization.IMissingRecoverable)kv.Value).missingType);
+            }
+            if (resave && !temporary) {
+                EditorUtility.SetDirty(graph);
+                saved = graph.SelfSerialize();
+                AssetDatabase.SaveAssetIfDirty(graph);
+            }
+        }
+    } catch (Exception e) {
+        status = "exception";
+        issue("error", "-", e.GetType().Name + ": " + e.Message);
+    } finally {
+        Application.logMessageReceivedThreaded -= onLog;
+        if (subscribers != null) subscribers.Remove(onNcLog);
+    }
+    var sb = new System.Text.StringBuilder();
+    sb.Append("{\"path\":").Append(q(path)).Append(",\"anchor\":").Append(q(anchor)).Append(",\"status\":").Append(q(status));
+    if (graph != null && status != "deserialize-failed") {
+        var prime = graph.primeNode;
+        sb.Append(",\"type\":").Append(q(graph.GetType().FullName));
+        sb.Append(",\"nodes\":").Append(graph.allNodes.Count);
+        sb.Append(",\"variables\":").Append(graph.blackboard != null && graph.blackboard.variables != null ? graph.blackboard.variables.Count : 0);
+        sb.Append(",\"prime\":").Append(prime != null ? graph.allNodes.IndexOf(prime) : -1);
+        sb.Append(",\"primeType\":").Append(q(prime != null ? prime.GetType().FullName : null));
+    }
+    sb.Append(",\"saved\":").Append(saved ? "true" : "false");
+    sb.Append(",\"issues\":[").Append(string.Join(",", issues)).Append("]");
+    lock (logs) { sb.Append(",\"console\":[").Append(string.Join(",", logs)).Append("]}"); }
+    results.Add(sb.ToString());
+    if (temporary && graph != null) UnityEngine.Object.DestroyImmediate(graph);
+}
+return "{\"nodecanvas_cli_verify\":1,\"unity\":" + q(Application.unityVersion) + ",\"windows\":[" + string.Join(",", openWindows.Select(q)) + "],\"graphs\":[" + string.Join(",", results) + "]}";

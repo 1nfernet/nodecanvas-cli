@@ -1,0 +1,31 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install build twine
+      - run: python -m build
+      - run: twine check --strict dist/*
+      - name: Smoke-test the wheel
+        run: |
+          python -m venv /tmp/w && /tmp/w/bin/pip install dist/*.whl
+          /tmp/w/bin/nodecanvas-cli --version
+          /tmp/w/bin/nodecanvas-cli --project tests/fixtures/project list
+          /tmp/w/bin/python -c "import nodecanvas_cli.verify as v; assert v.SNIPPET.exists()"

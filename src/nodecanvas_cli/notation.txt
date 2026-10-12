@@ -1,0 +1,6 @@
+#0 BinarySelector ? !@Owner.IsDead          ? condition      @Owner  agent override variable
+├─#1 Sequencer "Attack"                      "..." node name  $Var    blackboard variable
+│ ├─#2 $Timer -= 1.0 per sec                 [off] disabled connection
+│ ├─(w=2.0) #3 @Owner.MoveTo($Target, (0, 1.0, 0))      (w=..) child weight of a ProbabilitySelector
+│ └─#4 SubTree → Patrol_BT {Self←$Owner, Found→$Found}   ← value passed in, → read back, ↔ both
+└─#5 ↑ (see above)                           node already printed (Merge / multiple parents)

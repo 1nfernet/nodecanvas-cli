@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nodecanvas-cli"
+version = "0.1.0"
+description = "Read, query, lint and edit NodeCanvas graphs (Behaviour Trees, FSMs, Dialogue Trees) in Unity projects from the command line"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "Aleksandr Esipov" }]
+keywords = ["unity", "nodecanvas", "behaviour-tree", "fsm", "dialogue-tree", "cli", "ai-agents"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Environment :: Console",
+    "Topic :: Games/Entertainment",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Primeer/nodecanvas-cli"
+Issues = "https://github.com/Primeer/nodecanvas-cli/issues"
+Changelog = "https://github.com/Primeer/nodecanvas-cli/blob/main/CHANGELOG.md"
+
+[project.scripts]
+nodecanvas-cli = "nodecanvas_cli.cli:main"
+
+[project.optional-dependencies]
+mcp = ["mcp>=2.3; python_version >= '3.10'"]
+dev = ["pytest>=7", "mcp>=2.3; python_version >= '3.10'"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nodecanvas_cli"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]

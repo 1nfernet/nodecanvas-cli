@@ -1,0 +1,8 @@
+Patrol_BT  [BT, repeat]  Assets/Graphs/Patrol_BT.asset  nodes=5
+vars: Patience:float(pub)  Spare:float(pub)
+external: $Global/Alarm(global)  $Home dist(owner)  $World/Panic(missing)  $Reach(owner)
+#0 Sequencer
+├─#1 ? !$Global/Alarm
+├─#2 $Home dist = $Patience
+├─#3 $World/Panic! = true
+└─#4 $Reach = 1.0

@@ -1,0 +1,11 @@
+Broken_BT  [BT, repeat]  Assets/Graphs/Broken_BT.asset  nodes=7
+vars: Self:Bot
+external: $Ghost(missing)
+#0 Sequencer
+├─#1 Bot.Fly()
+├─#2 ? !$Ghost!
+└─#3 Cooldown
+  ├─#4 wait 1.0s
+  └─#5 wait 2.0s
+-- unreachable from root --
+#6 MISSING Teleport

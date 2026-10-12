@@ -1,0 +1,15 @@
+#!/bin/sh
+# Runs the nodecanvas-cli command bundled with this plugin (no installation needed; Python 3.9+).
+here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+src="$here/../../../src"
+if [ ! -d "$src/nodecanvas_cli" ]; then
+    echo "nodecanvas-cli: bundled sources not found at $src; install with 'pipx install nodecanvas-cli'" >&2
+    exit 2
+fi
+for py in python3 python; do
+    if command -v "$py" >/dev/null 2>&1; then
+        PYTHONPATH="$src${PYTHONPATH:+:$PYTHONPATH}" exec "$py" -m nodecanvas_cli "$@"
+    fi
+done
+echo "nodecanvas-cli: Python 3.9+ is required" >&2
+exit 2

@@ -1,0 +1,14 @@
+{
+  "name": "nodecanvas-cli",
+  "description": "NodeCanvas graphs (Behaviour Trees, FSMs, Dialogue Trees) for coding agents.",
+  "owner": {
+    "name": "Aleksandr Esipov"
+  },
+  "plugins": [
+    {
+      "name": "nodecanvas-cli",
+      "source": "./",
+      "description": "Read, search, lint and edit NodeCanvas graphs (Behaviour Trees, FSMs, Dialogue Trees) in Unity projects."
+    }
+  ]
+}

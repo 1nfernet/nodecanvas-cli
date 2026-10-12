@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
+  m_Name: Bot_BT
+  m_EditorClassIdentifier: NodeCanvas::NodeCanvas.BehaviourTrees.BehaviourTree
+  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"0"},{"_condition":{"method":{"_baseInfo":"Demo.Game.Bot|get_IsDead|System.Boolean","_paramsInfo":""},"checkValue":{"_type":"System.Boolean","_value":{"$content":true,"$type":"System.Boolean"}},"overrideAgent":{"_type":"Demo.Game.Bot","_name":"Self","_targetVariableID":"590f53e8-0000-4000-8000-590f53e86998"},"$type":"NodeCanvas.Tasks.Conditions.CheckProperty_Multiplatform"},"_position":{"x":-300.0,"y":140.0},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"1"},{"_name":"Fight","_position":{"y":140.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"2"},{"_condition":{"valueA":{"_name":"Alert","_targetVariableID":"7ed21143-0000-4000-8000-7ed21143076d"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckBoolean"},"_position":{"x":-200.0,"y":280.0},"$type":"NodeCanvas.BehaviourTrees.ConditionNode","$id":"3"},{"coolDownTime":{"_name":"Cool
+    time","_targetVariableID":"b1f4f9a5-0000-4000-8000-b1f4f9a523e3"},"_position":{"y":280.0},"$type":"NodeCanvas.BehaviourTrees.Cooldown","$id":"4"},{"_action":{"method":{"_baseInfo":"Demo.Game.Bot|Attack|System.Void","_paramsInfo":"Demo.Game.Unit"},"parameters":[{"_type":"Demo.Game.Unit","_name":"Target","_targetVariableID":"42aefbae-0000-4000-8000-42aefbae01d2"}],"returnValue":{},"overrideAgent":{"_type":"Demo.Game.Bot","_name":"Self","_targetVariableID":"590f53e8-0000-4000-8000-590f53e86998"},"$type":"NodeCanvas.Tasks.Actions.ExecuteFunction_Multiplatform"},"_position":{"y":420.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"5"},{"childWeights":[{"_value":1.0},{"_value":3.0}],"_position":{"x":200.0,"y":280.0},"$type":"NodeCanvas.BehaviourTrees.ProbabilitySelector","$id":"6"},{"_action":{"method":{"_baseInfo":"Demo.Game.Bot|MoveTo|System.Void","_paramsInfo":"UnityEngine.Vector3"},"parameters":[{"_type":"UnityEngine.Vector3","_value":{"x":1.0,"z":-2.5,"$type":"UnityEngine.Vector3"}}],"returnValue":{},"overrideAgent":{"_type":"Demo.Game.Bot","_name":"Self","_targetVariableID":"590f53e8-0000-4000-8000-590f53e86998"},"$type":"NodeCanvas.Tasks.Actions.ExecuteFunction_Multiplatform"},"_position":{"x":100.0,"y":420.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"7"},{"_subTree":{"_value":1},"_variablesMap":[{"_targetSubGraphVariableID":"919a3d7b-0000-4000-8000-919a3d7bd39c","_canWrite":true,"_type":"Demo.Game.Bot","_name":"Self","_targetVariableID":"590f53e8-0000-4000-8000-590f53e86998"},{"_targetSubGraphVariableID":"141ebf5f-0000-4000-8000-141ebf5f2f61","_canRead":true,"_type":"System.Boolean","_name":"Alert","_targetVariableID":"7ed21143-0000-4000-8000-7ed21143076d"}],"_position":{"x":300.0,"y":420.0},"$type":"NodeCanvas.BehaviourTrees.SubTree","$id":"8"},{"_action":{"valueA":{"_name":"Speed","_targetVariableID":"ce4ef3ec-0000-4000-8000-ce4ef3ec9844"},"Operation":3,"valueB":{"_value":2.0},"$type":"NodeCanvas.Tasks.Actions.SetFloat"},"_comment":"double
+    the speed","_position":{"x":300.0,"y":140.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"9"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_isDisabled":true,"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"9"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"8"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"Self":{"_name":"Self","_id":"590f53e8-0000-4000-8000-590f53e86998","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[Demo.Game.Bot,
+    Demo.Game, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Target":{"_name":"Target","_id":"42aefbae-0000-4000-8000-42aefbae01d2","$type":"NodeCanvas.Framework.Variable`1[[Demo.Game.Unit,
+    Demo.Game, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Alert":{"_name":"Alert","_id":"7ed21143-0000-4000-8000-7ed21143076d","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Cool
+    time":{"_value":2.0,"_name":"Cool time","_id":"b1f4f9a5-0000-4000-8000-b1f4f9a523e3","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Speed":{"_value":3.5,"_name":"Speed","_id":"ce4ef3ec-0000-4000-8000-ce4ef3ec9844","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}},"derivedData":{"repeat":true,"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+  _objectReferences:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: d253e9b372ccacf71f0ef474084feb83, type: 2}
+  _graphSource:
+    _version: 3.33
+    _category: 
+    _comments: 
+    _translation: {x: 0, y: 0}
+    _zoomFactor: 1
+  _haltSerialization: 0
+  _externalSerializationFile: {fileID: 0}

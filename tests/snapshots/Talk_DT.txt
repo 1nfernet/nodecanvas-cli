@@ -1,0 +1,16 @@
+Talk_DT  [DT]  Assets/Graphs/Talk_DT.asset  nodes=6
+vars: Met:bool
+actors: Guard, Player
+start → #0
+#0 [Guard] Say "Hello, traveller!"
+   → #1
+#1 [Player] Choice
+   1) "Who are you?" → #2
+   2) "Let me pass." if $Met → #3
+#2 [Guard] Say "I guard this gate." meta=calm
+   → #1
+#3 ? !$Met
+   true → #4
+   false → #5
+#4 FinishNode
+#5 Jump → #2

@@ -1,0 +1,6 @@
+Sub_BT  [BT, repeat]  Assets/Graphs/Sub_BT.asset  nodes=4
+vars: Self:Bot(pub)  Alert:bool(pub)
+#0 Sequencer
+├─#1 $Alert = true
+├─#2 wait 0.5s
+└─#3 Bot.speed = 4.0 "Set speed"
